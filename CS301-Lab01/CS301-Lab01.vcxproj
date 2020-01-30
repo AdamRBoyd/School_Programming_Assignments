@@ -148,6 +148,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CS301-Lab01.cpp" />
+    <ClCompile Include="Tuple.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Tuple.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
