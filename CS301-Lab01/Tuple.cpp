@@ -74,7 +74,7 @@ void Tuple::sort() {
 	bool FLAG = true;
 	for (int i = 0; i <= SIZE && FLAG; i++) {
 		FLAG = false;
-		for (int j = 0; j < (SIZE - 1); j++) {
+		for (int j = 0; j < SIZE - 1; j++) {
 			if (items[j + 1] < items[j]) {
 				int temp = items[j];
 				items[j] = items[j + 1];
