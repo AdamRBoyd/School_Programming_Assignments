@@ -17,10 +17,7 @@ int Tuple::get(int n) const {
 }
 
 void Tuple::set(int position, int value) {
-	if (position > SIZE - 1) {
-		cout << "Invalid Position - " << position << " Not in Range!";
-		return;
-	}
+	if (position > SIZE || position <= 0) return;
 	if (value < MINVALUE) value = MINVALUE;
 	if (value > MAXVALUE) value = MAXVALUE;
 
@@ -29,7 +26,7 @@ void Tuple::set(int position, int value) {
 
 
 void Tuple::rotate(int amount) {
-	if (amount <= 0 || amount % SIZE = 0) return;
+	if ((amount <= 0) || (amount % SIZE == 0)) return;
 	amount %= SIZE;
 	
 	int temp[SIZE];
@@ -77,11 +74,11 @@ void Tuple::sort() {
 	bool FLAG = true;
 	for (int i = 0; i <= SIZE && FLAG; i++) {
 		FLAG = false;
-		for (int j = 0; j < SIZE - 1; j++) {
-			if (items[i + 1] > items[i]) {
-				int temp = items[i];
-				items[i] = items[i + 1];
-				items[i + 1] = temp;
+		for (int j = 0; j < (SIZE - 1); j++) {
+			if (items[j + 1] < items[j]) {
+				int temp = items[j];
+				items[j] = items[j + 1];
+				items[j + 1] = temp;
 				FLAG = true;
 			}
 		}
@@ -108,10 +105,10 @@ bool Tuple::equalBags(const Tuple& t) const {
 	for (int i = 0; i <= SIZE && FLAG; i++) {
 		FLAG = false;
 		for (int j = 0; j < SIZE - 1; j++) {
-			if (temp1[i + 1] > temp1[i]) {
-				int temp = temp1[i];
-				temp1[i] = temp1[i + 1];
-				temp1[i + 1] = temp;
+			if (temp1[j + 1] > temp1[j]) {
+				int temp = temp1[j];
+				temp1[j] = temp1[j + 1];
+				temp1[j + 1] = temp;
 				FLAG = true;
 			}
 		}
@@ -121,10 +118,10 @@ bool Tuple::equalBags(const Tuple& t) const {
 	for (int i = 0; i <= SIZE && FLAG; i++) {
 		FLAG = false;
 		for (int j = 0; j < SIZE - 1; j++) {
-			if (temp2[i + 1] > temp2[i]) {
-				int temp = temp2[i];
-				temp2[i] = temp2[i + 1];
-				temp2[i + 1] = temp;
+			if (temp2[j + 1] > temp2[j]) {
+				int temp = temp2[j];
+				temp2[j] = temp2[j + 1];
+				temp2[j + 1] = temp;
 				FLAG = true;
 			}
 		}
