@@ -70,6 +70,52 @@ void testRotate()
     cout << "END TESTROTATE" << endl << endl;
 }
 
+void testAverage() {
+    cout << "BEGIN TESTAverage" << endl;
+    Tuple t;
+    for (int i = 1; i < Tuple::SIZE; i++)
+        t.set(i + 1, t.get(i) + 1);
+    t.print();
+    cout << t.getAverage() << endl;
+    cout << "END TESTAverage" << endl << endl;
+}
+
+void testEqual() {
+    cout << "BEGIN TESTEquals" << endl;
+    Tuple t;
+    for (int i = 1; i < Tuple::SIZE; i++)
+        t.set(i + 1, t.get(i) + 1);
+    t.print();
+    Tuple u;
+    for (int i = 1; i < Tuple::SIZE; i++)
+        u.set(i + 1, u.get(i) + 1);
+    u.print();
+    cout << t.equal(u) << "\n";
+    u.set(4, 1);
+    u.print();
+    cout << t.equal(u) << "\n";
+    cout << "END TESTEquals" << endl << endl;
+}
+
+void testEqualBags() {
+    cout << "BEGIN TESTEqualBags" << endl;
+    Tuple t;
+    for (int i = 1; i < Tuple::SIZE; i++)
+        t.set(i + 1, t.get(i) + 1);
+    t.print();
+    Tuple u;
+    for (int i = 1; i < Tuple::SIZE; i++)
+        u.set(i + 1, u.get(i) + 1);
+    u.print();
+    u.reverse();
+    u.print();
+    cout << t.equalBags(u) << endl;
+    u.set(4, 1);
+    u.print();
+    cout << t.equalBags(u) << endl;
+    cout << "END TESTEqualBags" << endl << endl;
+
+}
 
 int main()
 {
@@ -77,5 +123,9 @@ int main()
     testSort();
     testReverse();
     testRotate();
+    testAverage();
+    testEqual();
+    testEqualBags();
+
     return 0;
 }

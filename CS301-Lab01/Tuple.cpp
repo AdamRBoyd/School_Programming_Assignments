@@ -58,11 +58,11 @@ void Tuple::print() const {
 		cout << items[i];
 		if (i < SIZE - 1) cout << ",";
 	}
-	cout << "}\n";
+	cout << "}" << endl;
 }
 
 double Tuple::getAverage() const {
-	int total = 0;
+	double total = 0;
 	for (int i = 0; i < SIZE; i++) {
 		total += items[i];
 	}
