@@ -1,4 +1,5 @@
 // CS301-Lab02.cpp : This file contains the 'main' function. Program execution begins and ends there.
+
 /*Implement a function double getRoot (double x, int n). 
 The function should return the nth root of x. 
 Use the same algorithm as in the squareRoot function posted above. 
@@ -11,9 +12,32 @@ Upload a .cpp with your getRoot function and a main that calls the function at l
 
 #include <iostream>
 
+using namespace std;
+
+double powerHelper(double x, int n) {
+    if (n == 0) return 1.0;
+    if (n % 2 == 0) return powerHelper(x * x, n / 2);
+    return (x * powerHelper(x * x, (n - 1) / 2));
+}
+
+double rootHelper(double x, double low, double high, int n) {
+    if (high - low < 0.000001) return low;
+    double mid = (low + high) / 2.0;
+    if (powerHelper(mid, n) > x)
+        return rootHelper(x, low, mid, n);
+    return rootHelper(x, mid, high, n);
+}
+
+double squareRoot(double x, int n) {
+    if (x < 1)  return rootHelper(x, x, 1, n);
+    return rootHelper(x, 1, x, n);
+}
+
 int main()
 {
-    
+    cout << squareRoot(27, 3) << endl;
+    cout << squareRoot(100000, 5) << endl;
+    cout << squareRoot(100000, 4) << endl;
 
     return 0;
 }
