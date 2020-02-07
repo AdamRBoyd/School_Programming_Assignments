@@ -1,20 +1,22 @@
 // CS301-Lab03.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*Implement a LinkedList class that uses a doubly-linked list as the underlying data structure. 
+That means each node will have both a previous and a next pointer along with the data.   
+This will be a class template similar to the LinkedList code I posted on Blackboard except we will include 
+fields int length; and Node * tailPtr;  along with the original Node * headPtr.
+
+Implement the same functions as in the posted LInkedList class, along with corresponding insertLast, removeLast and getLast methods.  
+Also provide a getLength() method and a reverse method that reverses the order of element in the list. 
+Your reverse method should be code efficiently, meaning don't allocate any new nodes or move data between node. 
+Just update the pointers, if possible.
+
+Upload your LinkedList.h file and a tester.cpp that does some tests on LinkedList object. 
+You're graded on the correctness of LinkedList.h not on the quality of your tests.*/
 
 #include <iostream>
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    
+
+    return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
