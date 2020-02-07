@@ -119,12 +119,12 @@ void testEqualBags() {
 
 int main()
 {
-    testSet();
+    /*testSet();
     testSort();
     testReverse();
     testRotate();
     testAverage();
-    testEqual();
+    testEqual();*/
     testEqualBags();
 
     return 0;
