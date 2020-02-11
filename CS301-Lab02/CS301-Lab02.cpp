@@ -28,16 +28,24 @@ double rootHelper(double x, double low, double high, int n) {
     return rootHelper(x, mid, high, n);
 }
 
-double squareRoot(double x, int n) {
+double root(double x, int n) {
     if (x < 1)  return rootHelper(x, x, 1, n);
     return rootHelper(x, 1, x, n);
 }
 
 int main()
 {
-    cout << squareRoot(27, 3) << endl;
-    cout << squareRoot(100000, 5) << endl;
-    cout << squareRoot(100000, 4) << endl;
+    int x, p;
+
+    while (true) {
+        cout << "Enter your number (Enter 0 to exit): ";
+        cin >> x;
+        if (x == 0) return 0;
+        cout << "Enter the power: ";
+        cin >> p;
+
+        cout << x << " with a root of " << p << " is " << root(x, p) << endl << endl;
+    }
 
     return 0;
 }
