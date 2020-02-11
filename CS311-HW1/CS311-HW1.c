@@ -43,7 +43,7 @@ void convertCharToLetterGrade(char grade) {
 }
 enum LetterGrade getLetterGradeFromAverage(const double avg) {
 	if (avg >= 90)
-		return enum LetterGrade::A;
+		return enum LetterGrade.A;
 	else if (avg >= 80)
 		return enum LetterGrade::B;
 	else if (avg >= 70)
