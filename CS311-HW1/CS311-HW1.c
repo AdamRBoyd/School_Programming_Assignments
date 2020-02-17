@@ -7,9 +7,6 @@ using namespace std;*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <string.h>
-#include <ctype.h>
-
 
 /*enum LetterGrade {
 	A = 4,
