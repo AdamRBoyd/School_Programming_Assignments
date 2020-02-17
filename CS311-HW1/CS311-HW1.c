@@ -3,9 +3,12 @@
 #include <cstdint>
 #include <vector>
 using namespace std;*/
+
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+#include <ctype.h>
 
 
 /*enum LetterGrade {
@@ -35,23 +38,13 @@ double getArrayAverage(vector<T>& vec) {
 	return avg;
 }*/
 
-double getArrayAverage(void* arr[], int size, int type) {
-	double avg = 0;
-	int sum = 0;
-
-	if (type == 1) {
-		for (int i = 0; i < 3; i++) {
-			sum += (int)arr[i];
-		}
+double getArrayAverage(int arr[], int size) {
+	double sum = 0;
+	for (int i = 0; i < size; ++i) {
+		sum += arr[i];
 	}
-	else {
-		for (int i = 0; i < 3; i++) {
-			printf("%c\n", arr[i]);
-			//sum += (enum LetterGrade)arr[i];
-		}
-	}
-	avg = sum / size;
-	return avg;
+	
+	return sum / size;
 }
 
 /*void convertCharToLetterGrade(char& grade) {
@@ -77,25 +70,26 @@ double getArrayAverage(void* arr[], int size, int type) {
 	}
 }*/
 
-void convertCharToLetterGrade(char grade) {
-	switch (grade) {
+void convertCharToLetterGrade(char *grade) {
+	switch (*grade) {
 	case 'A': case 'a':
-		grade = 4;
+		*grade = 4;
 		return;
 	case 'B': case 'b':
-		grade = 3;
+		*grade = 3;
 		return;
 	case 'C': case 'c':
-		grade = 2;
+		*grade = 2;
 		return;
 	case 'D': case 'd':
-		grade = 1;
+		*grade = 1;
 		return;
 	case 'F': case 'f':
-		grade = 0;
+		*grade = 0;
 		return;
 	default:
 		printf("%s", "Warning... Invalid Character... Recording an F.\n");
+		*grade = 0;
 		return;
 	}
 }
@@ -139,18 +133,20 @@ int main() {
 	cout << "Enter number of previous courses: ";
 	cin >> numPrevCourses;
 	cin.ignore();*/
-	int c;
-
-	char firstName[50];
+	
+	char c;  //used for input flush
+	//char* firstName, * lastName, * fullName;
+	
+	char firstName[50];							//<<<<<<<<<<<<<<<<<<<<<<<<<<MAKE DYNAMIC<<<<<<<<<<<<<<<<<<<<<<<<<<<< <
 	printf("Please enter your first name: ");
 	scanf("%s", &firstName);
 
-	char lastName[50];
+	char lastName[50];							//<<<<<<<<<<<<<<<<<<<<<<<<<<MAKE DYNAMIC<<<<<<<<<<<<<<<<<<<<<<<<<<<< <
 	printf("Please enter your last name: ");
 	scanf("%s", &lastName);
 
 	int numPrevCourses = 0;
-	printf("Enter number of previous courses: ");
+	printf("\nEnter number of previous courses: ");
 	scanf("%d", &numPrevCourses);
 	
 	//flush input buffer aka cin.ignore()
@@ -167,7 +163,7 @@ int main() {
 		prevGrades.at(courseIx) = static_cast<LetterGrade>(letterGrade);
 	}*/
 
-	enum LetterGrade* prevGrades = malloc(numPrevCourses * sizeof(*prevGrades));
+	enum LetterGrade* prevGrades = (enum LetterGrade*)malloc(numPrevCourses * sizeof(enum LetterGrade));
 
 	for (int courseIx = 0; courseIx < numPrevCourses; ++courseIx) {
 		printf("Enter letter grade for course %d: ", courseIx + 1);
@@ -176,10 +172,11 @@ int main() {
 		//flush input buffer aka cin.ignore()
 		while ((c = getchar()) != '\n' && c != EOF) {}
 
-		convertCharToLetterGrade(letterGrade);
-		prevGrades[courseIx] = (enum LetterGrade)letterGrade;
-	}
+		convertCharToLetterGrade(&letterGrade);
 
+		prevGrades[courseIx] = letterGrade;
+	}
+	
 	/*int32_t numExams;
 	cout << "Enter number of exams this semester: ";
 	cin >> numExams;
@@ -194,12 +191,12 @@ int main() {
 	}*/
 
 	int numExams;
-	printf("Enter number of exams this semester: ");
+	printf("\nEnter number of exams this semester: ");
 	scanf("%d", &numExams);
 	//flush input buffer aka cin.ignore()
 	while ((c = getchar()) != '\n' && c != EOF) {}
 
-	int* examGrades = malloc(numExams * sizeof(*examGrades));
+	int* examGrades = (int*)malloc(numExams * sizeof(int));
 
 	for(int examIx = 0; examIx < numExams; ++examIx) {
 		printf("%s %d %s", "Enter grade for exam ", examIx+1, " as an integer: ");
@@ -211,41 +208,43 @@ int main() {
 	/*const auto fullName = firstName + " " + lastName;
 	cout << "Grade Report For " << fullName << ":\n";*/
 
-	/*char fullname[100];
-	strcpy(fullname, firstName);
-	strcat(fullname, ' ');
-	strcat(fullname, lastName);
-	printf("%s %s %s", "Grade Report for", fullname, ":\n");
+	char fullname[100];										//<<<<<<<<<<<<<<<<<<<<<<<<<<MAKE DYNAMIC<<<<<<<<<<<<<<<<<<<<<<<<<<<< <
+	int nameCat = 0;
+
+	for (; firstName[nameCat] != '\0'; nameCat++) {
+		fullname[nameCat] = firstName[nameCat];
+	}
+	fullname[nameCat] = ' ';
+	nameCat++;
+	for (int i = 0; lastName[i] != '\0'; i++, nameCat++) {
+		fullname[nameCat] = lastName[i];
+	}
+	fullname[nameCat] = '\0';
+
+	printf("%s %s:\n", "\nGrade Report for", fullname);
 
 	/*const auto examAverage = getArrayAverage(examGrades);
 	cout << "Your exam average is: " << examAverage << "\n";*/
 
-	double examAverage = getArrayAverage(examGrades, numExams, 1);
-	printf("%s %f\n", "Your exam average is:", examAverage);
+	double examAverage = getArrayAverage(examGrades, numExams);
+	printf("%s %.2f\n", "Your exam average is:", examAverage);
 
 	// get GPA with newest course added:
 	/*const auto newLetterGrade = getLetterGradeFromAverage(examAverage);
 	prevGrades.push_back(newLetterGrade);*/
 
-	for (int i = 0; i < numPrevCourses; ++i) {
-		printf("%c\n", prevGrades[i]);
-	}
-
-	++numPrevCourses;
 	enum LetterGrade newLetterGrade = getLetterGradeFromAverage(examAverage);
-	*prevGrades = realloc(prevGrades, numPrevCourses * sizeof(enum LetterGrade));
-	prevGrades[numPrevCourses] = newLetterGrade;
 
-
-	for (int i = 0; i < numPrevCourses; ++i) {
-		printf("%c\n", prevGrades[i]);
-	}
+	prevGrades = realloc(prevGrades, ++numPrevCourses * sizeof(enum LetterGrade));
+	prevGrades[numPrevCourses-1] = newLetterGrade;
 
 	/*const auto gpa = getArrayAverage(prevGrades);
 	cout << "Your latest GPA is: " << gpa << "\n";*/
 
-	double gpa = getArrayAverage(prevGrades, numPrevCourses, 0);  //prevGrades is type LetterGrade...
-	printf("%s %f\n", "Your latest GPA is:", gpa);
+	double gpa = getArrayAverage(prevGrades, numPrevCourses);
+	printf("%s %.2f\n", "Your latest GPA is:", gpa);
 
+	free(prevGrades);
+	free(examGrades);
 	return 0;
 }
