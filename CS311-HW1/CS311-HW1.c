@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 
 enum LetterGrade {
 	A = 4,
@@ -64,7 +65,7 @@ enum LetterGrade getLetterGradeFromAverage(const double avg) {
 
 int main() {
 	char c, firstName[50], lastName[50], fullName[100];   //c used in input flush
-	int numPrevCourses = 0, numExams, nameCat = 0;
+	int numPrevCourses = 0, numExams;
 
 	printf("Please enter your first name: ");
 	scanf("%s", &firstName);
