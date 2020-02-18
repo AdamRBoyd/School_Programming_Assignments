@@ -59,21 +59,20 @@ enum LetterGrade getLetterGradeFromAverage(const double avg) {
 }
 
 int main() {
-	char c;
-	
-	char firstName[50];
+	char c, firstName[50], lastName[50], fullName[100];   //c used in input flush
+	int numPrevCourses = 0, numExams, nameCat = 0;
+
 	printf("Please enter your first name: ");
 	scanf("%s", &firstName);
 
-	char lastName[50];
 	printf("Please enter your last name: ");
 	scanf("%s", &lastName);
 
-	int numPrevCourses = 0;
+	
 	printf("\nEnter number of previous courses: ");
 	scanf("%d", &numPrevCourses);
 	
-	while ((c = getchar()) != '\n' && c != EOF) {}
+	while ((c = getchar()) != '\n' && c != EOF) {}  //input flush
 
 	enum LetterGrade* prevGrades = (enum LetterGrade*)malloc(numPrevCourses * sizeof(enum LetterGrade));
 
@@ -82,18 +81,17 @@ int main() {
 		char letterGrade;
 		scanf("%c", &letterGrade);
 		
-		while ((c = getchar()) != '\n' && c != EOF) {}
+		while ((c = getchar()) != '\n' && c != EOF) {}   //input flush
 
 		convertCharToLetterGrade(&letterGrade);
 
 		prevGrades[courseIx] = letterGrade;
 	}
 	
-	int numExams;
 	printf("\nEnter number of exams this semester: ");
 	scanf("%d", &numExams);
 	
-	while ((c = getchar()) != '\n' && c != EOF) {}
+	while ((c = getchar()) != '\n' && c != EOF) {}   //input flush
 
 	int* examGrades = (int*)malloc(numExams * sizeof(int));
 
@@ -101,23 +99,21 @@ int main() {
 		printf("%s %d %s", "Enter grade for exam ", examIx+1, " as an integer: ");
 		scanf("%d", &examGrades[examIx]);
 		
-		while ((c = getchar()) != '\n' && c != EOF) {}
+		while ((c = getchar()) != '\n' && c != EOF) {}    //input flush
 	}
 
-	char fullname[100];
-	int nameCat = 0;
-
+	//Add first/last name to fullname
 	for (; firstName[nameCat] != '\0'; nameCat++) {
-		fullname[nameCat] = firstName[nameCat];
+		fullName[nameCat] = firstName[nameCat];
 	}
-	fullname[nameCat] = ' ';
+	fullName[nameCat] = ' ';
 	nameCat++;
 	for (int i = 0; lastName[i] != '\0'; i++, nameCat++) {
-		fullname[nameCat] = lastName[i];
+		fullName[nameCat] = lastName[i];
 	}
-	fullname[nameCat] = '\0';
+	fullName[nameCat] = '\0';
 
-	printf("%s %s:\n", "\nGrade Report for", fullname);
+	printf("%s %s:\n", "\nGrade Report for", fullName);
 
 	double examAverage = getArrayAverage(examGrades, numExams);
 	printf("%s %.2f\n", "Your exam average is:", examAverage);
