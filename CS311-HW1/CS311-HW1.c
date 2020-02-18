@@ -106,8 +106,8 @@ int main() {
 	for (; firstName[nameCat] != '\0'; nameCat++) {
 		fullName[nameCat] = firstName[nameCat];
 	}
-	fullName[nameCat] = ' ';
-	nameCat++;
+	fullName[nameCat++] = ' ';
+
 	for (int i = 0; lastName[i] != '\0'; i++, nameCat++) {
 		fullName[nameCat] = lastName[i];
 	}
