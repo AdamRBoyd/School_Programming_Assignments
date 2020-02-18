@@ -106,16 +106,9 @@ int main() {
 		while ((c = getchar()) != '\n' && c != EOF) {}    //input flush
 	}
 
-	//Add first/last name to fullname
-	for (; firstName[nameCat] != '\0'; nameCat++) {
-		fullName[nameCat] = firstName[nameCat];
-	}
-	fullName[nameCat++] = ' ';
-
-	for (int i = 0; lastName[i] != '\0'; i++, nameCat++) {
-		fullName[nameCat] = lastName[i];
-	}
-	fullName[nameCat] = '\0';
+	strcpy(fullName, firstName);
+	strcat(fullName, " ");
+	strcat(fullName, lastName);
 
 	printf("%s %s:\n", "\nGrade Report for", fullName);
 
