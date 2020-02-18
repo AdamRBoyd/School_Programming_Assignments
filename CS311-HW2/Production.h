@@ -1,3 +1,4 @@
+#pragma once
 #ifndef PRODUCTION_H
 #define PRODUCTION_H
 
@@ -10,8 +11,8 @@ private:
 
 public:
 	Production();
-	Production(string);
-	void add_rhs(string, double); // adds new rhs to the production
+	Production(string s);
+	void add_rhs(string s, double d); // adds new rhs to the production
 	string expand() const; // returns one of the rhs choices using a random number generator
 };
 
