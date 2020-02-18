@@ -1,3 +1,7 @@
+//Adam Boyd
+//CS311 01
+//ID xv3543
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
