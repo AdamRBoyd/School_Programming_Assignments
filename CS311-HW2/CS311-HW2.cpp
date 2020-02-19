@@ -7,6 +7,8 @@
 #include <unordered_map>
 #include <fstream>
 #include <string>
+#include <cstdlib>
+#include <time.h>
 #include "Production.h"
 
 using namespace std;
@@ -23,18 +25,20 @@ bool findAndIdentify(const string inStr, size_t &beg, size_t &end) {
 int main() {
 	string keyStr, newStr, mainStr = "int main() {\n <stat_list> \nreturn 0; \n}";
 	size_t beg, end;
+
+	srand(time(NULL));
 	
 	vector<vector<string>> vecStr{ 
 		/*<stat_list>*/{"<stat>", "<stat_list> <stat>"}, 
 		/*<stat>*/{"<cmpd_stat>", "<if_stat>", "<iter_stat>", "<assgn_stat>", "<decl_stat>"}, 
 		/*<cmpd_stat>*/{"{\n <stat_list> \n}"}, 
 		/*<if_stat>*/{"if ( <exp> ) <stat>", "if ( <exp> ) <cmpd_stat>", "if ( <exp> ) <stat> \nelse <stat>", "if ( <exp> ) <cmpd_stat> \nelse <stat>", "if ( <exp> ) <stat> \nelse <cmpd_stat>", "if ( <exp> ) <cmpd_stat> \nelse <cmpd_stat>"}, 
-		/*<iter_stat>*/{"while ( <exp> ) <stat>", "while ( <exp> ) <cmpd_stat>"}, 
+		/*<iter_stat>*/{"\nwhile ( <exp> ) {\n<stat>\n}\n", "\nwhile ( <exp> ) {\n<cmpd_stat>\n}\n"}, 
 		/*<assgn_stat>*/{"<id> = <exp>"}, 
 		/*<decl_stat>*/{"<type> <id>", "<type> <assgn_stat>"}, 
 		/*<exp>*/{"<exp> <op> <exp>", "<id>", "<const>"}, 
 		/*<op>*/{"+ ","- ","* ","/ "}, 
-		/*<type>*/{"int ", "double "}, 
+		/*<type>*/{"\nint ", "\ndouble "}, 
 		/*<id>*/{"<char><char_digit_seq>"}, 
 		/*<const>*/{"<digit><digit_seq>"}, 
 		/*<char_digit_seq>*/{" ", "<char><char_digit_seq>", "<digit><char_digit_seq>"}, 
@@ -43,11 +47,11 @@ int main() {
 		/*<digit>*/{"0","1","2","3","4","5","6","7","8","9"}
 	};
 	vector<vector<double>> vecDoub{
-		/*<stat_list>*/{.9, .1},
-		/*<stat>*/{0.05, 0.05, 0.05, 0.5, 0.35},
+		/*<stat_list>*/{1, .1},
+		/*<stat>*/{1, 0.05, 0.05, 0.5, 0.35},
 		/*<cmpd_stat>*/{1},
 		/*<if_stat>*/{ 1, 0.15, 0.15, 0.15, 0.2, 0.2},
-		/*<iter_stat>*/{ .75, 0.25},
+		/*<iter_stat>*/{ 1, 0.25},
 		/*<assgn_stat>*/{1},
 		/*<decl_stat>*/{1, 0.5},
 		/*<exp>*/{1, 0.3, 0.5},
@@ -105,10 +109,10 @@ int main() {
 		newStr = myMap.at(keyStr).expand();
 
 		mainStr.replace(beg, len, newStr);
-		cout << mainStr << endl;
+		cout << ".";
 	}
 
-	cout << mainStr << endl;
+	cout << "\n" << mainStr << endl;
 
 
 	return 0;

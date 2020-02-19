@@ -33,8 +33,7 @@ public:
 	}
 
 	string expand() const {		//returns one of the rhs choices using a random number generator
-		srand(time(NULL));
-
+		
 		if (trans_probs[0] != 1) {
 			double random = ((double)rand() / (RAND_MAX));
 
