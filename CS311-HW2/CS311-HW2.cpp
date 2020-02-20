@@ -25,16 +25,15 @@ bool findAndIdentify(const string inStr, size_t &beg, size_t &end) {
 int main() {
 	string keyStr, newStr, mainStr = "int main() {\n <stat_list> \nreturn 0; \n}";
 	size_t beg, end;
-	ofstream myFile ("OutFile.txt");
-
+	//ofstream myFile ("OutFile.txt");  //uncomment for file io <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	srand(time(NULL));
 	
 	vector<vector<string>> vecStr{ 
 		/*<stat_list>*/{"<stat>", "<stat_list> <stat>"}, 
 		/*<stat>*/{"<cmpd_stat>", "<if_stat>", "<iter_stat>", "<assgn_stat>", "<decl_stat>"}, 
-		/*<cmpd_stat>*/{"{\n\t <stat_list> \n}"}, 
+		/*<cmpd_stat>*/{"{\n <stat_list> \n}"}, 
 		/*<if_stat>*/{"if (<exp>) <stat>", "if (<exp>) <cmpd_stat>", "if (<exp>) <stat> \nelse <stat>", "if (<exp>) <cmpd_stat> \nelse <stat>", "if (<exp>) <stat> \nelse <cmpd_stat>", "if (<exp>) <cmpd_stat> \nelse <cmpd_stat>"}, 
-		/*<iter_stat>*/{"\nwhile (<exp>) {\n\t<stat>\n}\n", "\nwhile (<exp>) {\n\t<cmpd_stat>\n}\n"}, 
+		/*<iter_stat>*/{"\nwhile (<exp>) {\n<stat>\n}\n", "\nwhile (<exp>) {\n<cmpd_stat>\n}\n"}, 
 		/*<assgn_stat>*/{"<id> = <exp>"}, 
 		/*<decl_stat>*/{"<type> <id>", "<type> <assgn_stat>"}, 
 		/*<exp>*/{"<exp> <op> <exp>", "<id>", "<const>"}, 
@@ -102,18 +101,16 @@ int main() {
 		{"<digit>", digit}
 	};
 
-
+	cout << "Please Wait.";
 	while (findAndIdentify(mainStr, beg, end)) {
 		size_t len = end - beg + 1;
 		keyStr = mainStr.substr(beg, len);
-		
 		newStr = myMap.at(keyStr).expand();
-
 		mainStr.replace(beg, len, newStr);
 		cout << ".";
 	}
 
-	cout << "\n" << mainStr << endl;
+	cout << "\n" << mainStr << endl; //for testing <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	//Write to file, if open
 	/*if (myFile.is_open()) {
