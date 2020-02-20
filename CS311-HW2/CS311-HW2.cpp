@@ -31,9 +31,9 @@ int main() {
 	vector<vector<string>> vecStr{ 
 		/*<stat_list>*/{"<stat>", "<stat_list> <stat>"}, 
 		/*<stat>*/{"<cmpd_stat>", "<if_stat>", "<iter_stat>", "<assgn_stat>", "<decl_stat>"}, 
-		/*<cmpd_stat>*/{"{\n <stat_list> \n}"}, 
+		/*<cmpd_stat>*/{"{\n\t <stat_list> \n}"}, 
 		/*<if_stat>*/{"if ( <exp> ) <stat>", "if ( <exp> ) <cmpd_stat>", "if ( <exp> ) <stat> \nelse <stat>", "if ( <exp> ) <cmpd_stat> \nelse <stat>", "if ( <exp> ) <stat> \nelse <cmpd_stat>", "if ( <exp> ) <cmpd_stat> \nelse <cmpd_stat>"}, 
-		/*<iter_stat>*/{"\nwhile ( <exp> ) {\n<stat>\n}\n", "\nwhile ( <exp> ) {\n<cmpd_stat>\n}\n"}, 
+		/*<iter_stat>*/{"\nwhile ( <exp> ) {\n\t<stat>\n}\n", "\nwhile ( <exp> ) {\n\t<cmpd_stat>\n}\n"}, 
 		/*<assgn_stat>*/{"<id> = <exp>"}, 
 		/*<decl_stat>*/{"<type> <id>", "<type> <assgn_stat>"}, 
 		/*<exp>*/{"<exp> <op> <exp>", "<id>", "<const>"}, 
