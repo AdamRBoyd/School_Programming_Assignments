@@ -25,6 +25,7 @@ bool findAndIdentify(const string inStr, size_t &beg, size_t &end) {
 int main() {
 	string keyStr, newStr, mainStr = "int main() {\n <stat_list> \nreturn 0; \n}";
 	size_t beg, end;
+	ofstream myFile;
 
 	srand(time(NULL));
 	
@@ -32,17 +33,17 @@ int main() {
 		/*<stat_list>*/{"<stat>", "<stat_list> <stat>"}, 
 		/*<stat>*/{"<cmpd_stat>", "<if_stat>", "<iter_stat>", "<assgn_stat>", "<decl_stat>"}, 
 		/*<cmpd_stat>*/{"{\n\t <stat_list> \n}"}, 
-		/*<if_stat>*/{"if ( <exp> ) <stat>", "if ( <exp> ) <cmpd_stat>", "if ( <exp> ) <stat> \nelse <stat>", "if ( <exp> ) <cmpd_stat> \nelse <stat>", "if ( <exp> ) <stat> \nelse <cmpd_stat>", "if ( <exp> ) <cmpd_stat> \nelse <cmpd_stat>"}, 
-		/*<iter_stat>*/{"\nwhile ( <exp> ) {\n\t<stat>\n}\n", "\nwhile ( <exp> ) {\n\t<cmpd_stat>\n}\n"}, 
+		/*<if_stat>*/{"if (<exp>) <stat>", "if (<exp>) <cmpd_stat>", "if (<exp>) <stat> \nelse <stat>", "if (<exp>) <cmpd_stat> \nelse <stat>", "if (<exp>) <stat> \nelse <cmpd_stat>", "if (<exp>) <cmpd_stat> \nelse <cmpd_stat>"}, 
+		/*<iter_stat>*/{"\nwhile (<exp>) {\n\t<stat>\n}\n", "\nwhile (<exp>) {\n\t<cmpd_stat>\n}\n"}, 
 		/*<assgn_stat>*/{"<id> = <exp>"}, 
 		/*<decl_stat>*/{"<type> <id>", "<type> <assgn_stat>"}, 
 		/*<exp>*/{"<exp> <op> <exp>", "<id>", "<const>"}, 
-		/*<op>*/{"+ ","- ","* ","/ "}, 
+		/*<op>*/{" + "," - "," * "," / "}, 
 		/*<type>*/{"\nint ", "\ndouble "}, 
 		/*<id>*/{"<char><char_digit_seq>"}, 
 		/*<const>*/{"<digit><digit_seq>"}, 
-		/*<char_digit_seq>*/{" ", "<char><char_digit_seq>", "<digit><char_digit_seq>"}, 
-		/*<digit_seq>*/{" ", "<digit><digit_seq>"}, 
+		/*<char_digit_seq>*/{"", "<char><char_digit_seq>", "<digit><char_digit_seq>"}, 
+		/*<digit_seq>*/{"", "<digit><digit_seq>"}, 
 		/*<char>*/{"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"},
 		/*<digit>*/{"0","1","2","3","4","5","6","7","8","9"}
 	};
@@ -114,6 +115,10 @@ int main() {
 
 	cout << "\n" << mainStr << endl;
 
+	//Write to file
+	/*myFile.open("outFile.txt");
+	myFile << mainStr << endl;
+	myFile.close();*/
 
 	return 0;
 }
