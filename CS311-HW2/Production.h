@@ -20,7 +20,7 @@ public:
 	Production(const vector<string> vs, const vector<double> vd) {
 		rhs_options = vs;
 
-		if (vd.at(0) == 1) {
+		if (vd.at(0) == 1) {  //aka weight doesn't matter for this element [A-Z][a-z][0-9]etc...
 			trans_probs = vd;
 		}
 		else {
