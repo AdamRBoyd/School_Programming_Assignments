@@ -25,7 +25,7 @@ bool findAndIdentify(const string inStr, size_t &beg, size_t &end) {
 int main() {
 	string keyStr, newStr, mainStr = "int main() {\n <stat_list> \nreturn 0; \n}";
 	size_t beg, end;
-	ofstream myFile;
+	ofstream myFile ("OutFile.txt");
 
 	srand(time(NULL));
 	
@@ -115,10 +115,13 @@ int main() {
 
 	cout << "\n" << mainStr << endl;
 
-	//Write to file
-	/*myFile.open("outFile.txt");
-	myFile << mainStr << endl;
-	myFile.close();*/
+	//Write to file, if open
+	/*if (myFile.is_open()) {
+		myFile << mainStr << endl;
+		myFile.close();
+		cout << "Success!" << endl;
+	}
+	else cout << "Unable to open file!!" << endl;*/
 
 	return 0;
 }
