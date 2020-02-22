@@ -20,7 +20,7 @@ public:
 	Production(const vector<string> vs, const vector<double> vd) {
 		rhs_options = vs;
 
-		if (vd.at(0) == 1) {
+		if (vd.at(0) == 1) {  //aka weight doesn't matter for this element [A-Z][a-z][0-9]etc...
 			trans_probs = vd;
 		}
 		else {
@@ -34,6 +34,7 @@ public:
 
 	string expand() const {		//returns one of the rhs choices using a random number generator
 		
+		//if weight matters
 		if (trans_probs[0] != 1) {
 			double random = ((double)rand() / (RAND_MAX));
 
@@ -43,13 +44,10 @@ public:
 			return rhs_options.at(index);
 		}
 
-		int size = rhs_options.size();
-		int random = rand() % size;
-
-		string test = rhs_options.at(random);
+		//if weight doesn't matter -> such as which number or letter to pick
+		string test = rhs_options.at(rand() % rhs_options.size());
 		
 		return test;
-
 	}
 };
 
