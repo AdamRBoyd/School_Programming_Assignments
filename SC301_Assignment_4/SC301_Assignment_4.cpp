@@ -12,10 +12,7 @@ You will need the following includes:*/
 #include <exception>
 #include <cmath>
 #include <sstream>
-#include "LinkedStack.h"    //(Use the  LinkedStack code posted below this on Blackboard. )
-
-//Upload your Assignment4.cpp as your submission.
-//(Your code should work with the posted LinkedStack code, so you don't need to upload LinkedStack.h.)
+#include "LinkedStack.h"
 
 // CODE THAT SHOULD GO IN Assignment4.cpp
 void updateTheStack(const string & tok, LinkedStack<double> & stk);  // implementation goes below main.
