@@ -6,18 +6,16 @@ In the usual notation that would be written   ( (2 + 3) * 2)    -    ( - ((4   /
 You'll need to implement the function updateTheStack along with any helper functions you want. 
 When there is an out of range operand e.g. when dividing by 0 or when pow gives back infinity or nan  (try using the 
 isInf() and isnan() functions), throw a range_error exception with the message  "Illegal operation."
-If the stack becomes empty when you need an operand, throw a logic error exception with the message "Not enough operands."
-
-You will need the following includes:*/
+If the stack becomes empty when you need an operand, throw a logic error exception with the message "Not enough operands.":*/
 
 #include <exception>
 #include <cmath>
 #include <sstream>
 #include "LinkedStack.h"
 
+double toDouble(const string& s);
 double factorial(double n);
-// CODE THAT SHOULD GO IN Assignment4.cpp
-void updateTheStack(const string & tok, LinkedStack<double> & stk);  // implementation goes below main.
+void updateTheStack(const string & tok, LinkedStack<double> & stk);
 
 int main() {
 
@@ -115,12 +113,12 @@ void updateTheStack(const string& tok, LinkedStack<double>& stk) {
             stk.push(x * y);
             break;
         case '/':
-            if (y == 0) throw range_error("Divide by zero");
+            if (y == 0) throw range_error("Illegal operation");
             else stk.push(x / y);
             break;
         case '^':
             p = pow(x, y);
-            if (isinf(p) || isnan(p)) throw range_error("Infinity or NAN");
+            if (isinf(p) || isnan(p)) throw range_error("Illegal operation");
             else stk.push(p);
             break;
         case '!':
