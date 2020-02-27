@@ -25,7 +25,7 @@ bool findAndIdentify(const string inStr, size_t &beg, size_t &end) {
 int main() {
 	string keyStr, newStr, mainStr = "<prog>";
 	size_t beg, end;
-	//ofstream myFile ("OutFile.txt");  //uncomment for file io <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	ofstream myFile ("OutFile.txt");
 	srand(time(NULL));
 	
 	vector<vector<string>> vecStr{ 
@@ -47,7 +47,7 @@ int main() {
 		/*<digit>*/{"0","1","2","3","4","5","6","7","8","9"},
 		/*<prog>*/{"int main() {\n <stat_list> \nreturn 0; \n}"}
 	};
-	vector<vector<double>> vecDoub{				//<<<<<<<<<<<<<< To Do... Set Weights <<<<<<<<<<<<<<<<<<<
+	vector<vector<double>> vecDoub{
 		/*<stat_list>*/{0.55, 0.45},
 		/*<stat>*/{0.1, 0.15, 0.15, 0.30, 0.30},
 		/*<cmpd_stat>*/{1},
@@ -114,15 +114,13 @@ int main() {
 		cout << ".";
 	}
 
-	cout << "\n" << mainStr << endl; //for testing <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
 	//Write to file, if open
-	/*if (myFile.is_open()) {
+	if (myFile.is_open()) {
 		myFile << mainStr << endl;
 		myFile.close();
-		cout << "Success!" << endl;
+		cout << " Success!" << endl;
 	}
-	else cout << "Unable to open file!!" << endl;*/
+	else cout << "Unable to open file!!" << endl;
 
 	return 0;
 }
