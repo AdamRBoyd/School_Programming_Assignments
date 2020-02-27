@@ -4,7 +4,8 @@ To make factorial work with type double,  use the algorithm factorial(x) = 1 if 
 An example of a postfix expression:  2   3  +  2  *  4  3  2  ^  /   !  ~  - 
 In the usual notation that would be written   ( (2 + 3) * 2)    -    ( - ((4   /  (3 ^ 2) !)  .
 You'll need to implement the function updateTheStack along with any helper functions you want. 
-When there is an out of range operand e.g. when dividing by 0 or when pow gives back infinity or nan  (try using the isInf() and isnan() functions), throw a range_error exception with the message  "Illegal operation."
+When there is an out of range operand e.g. when dividing by 0 or when pow gives back infinity or nan  (try using the 
+isInf() and isnan() functions), throw a range_error exception with the message  "Illegal operation."
 If the stack becomes empty when you need an operand, throw a logic error exception with the message "Not enough operands."
 
 You will need the following includes:*/
@@ -12,6 +13,7 @@ You will need the following includes:*/
 #include <exception>
 #include <cmath>
 #include <sstream>
+#include <string>
 #include "LinkedStack.h"
 
 // CODE THAT SHOULD GO IN Assignment4.cpp
@@ -70,10 +72,9 @@ int main() {
 
     return 0;
 }
+
 // Convert s to a double.
-
 // If conversion fails, throw a logic_error exception.
-
 double toDouble(const string& s) {
     istringstream in(s);
     double x;
@@ -83,5 +84,45 @@ double toDouble(const string& s) {
 }
 
 void updateTheStack(const string& tok, LinkedStack<double>& stk) {
+    int v = stoi(tok);
+    if (isdigit(v)) {
+        stk.push(toDouble(tok));
+        cout << "Push" << endl;
+    }
+    else {
+        double x, y;
+        y = stk.top();
+        stk.pop();
+        x = stk.top();
+        stk.pop();
 
+        //+, -, *, /,  ^ (power) ,  !  (factorial)  and  ~
+        cout << tok[0] << endl;
+        switch (tok[0]) {
+        case '+':
+            stk.push(x + y);
+            break;
+        case '-':
+            stk.push(x - y);
+            break;
+        case '*':
+            stk.push(x * y);
+            break;
+        case '/':
+            stk.push(x / y);
+            break;
+        case '^':
+            stk.push(pow(x, y));
+            break;
+        case '!':
+            stk.push(x + y);
+            break;
+        case '~':
+            stk.push(x + y);
+            break;
+        default:
+            cout << "Invalid operator" << endl;
+            break;
+        }
+    }
 }
