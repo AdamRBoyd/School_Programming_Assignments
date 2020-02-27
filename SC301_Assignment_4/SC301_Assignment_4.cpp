@@ -1,13 +1,3 @@
-/*Implement a postfix evaluator using  the main below.  Do not change main.
-Support expressions with +, -, *, /,  ^ (power) ,  !  (factorial)  and  ~ (unary minus).  
-To make factorial work with type double,  use the algorithm factorial(x) = 1 if x <= 1, otherwise factorial(x) = factorial(x-1) * x.
-An example of a postfix expression:  2   3  +  2  *  4  3  2  ^  /   !  ~  - 
-In the usual notation that would be written   ( (2 + 3) * 2)    -    ( - ((4   /  (3 ^ 2) !)  .
-You'll need to implement the function updateTheStack along with any helper functions you want. 
-When there is an out of range operand e.g. when dividing by 0 or when pow gives back infinity or nan  (try using the 
-isInf() and isnan() functions), throw a range_error exception with the message  "Illegal operation."
-If the stack becomes empty when you need an operand, throw a logic error exception with the message "Not enough operands.":*/
-
 #include <exception>
 #include <cmath>
 #include <sstream>
@@ -17,12 +7,7 @@ double toDouble(const string& s);
 double factorial(double n);
 void updateTheStack(const string & tok, LinkedStack<double> & stk);
 
-int main() {
-
-    // 5 6 + means 5 + 6
-    // 5 6 3 + * means 5 * (6 + 3)
-    // 5 6 3 + * 2 ^ means (5 * (6 + 3)) ^ 2
-    // Main should NOT be changed!
+int main() {        // Main should NOT be changed!
 
     string tok, exp;
     bool done = false;
@@ -81,21 +66,23 @@ double toDouble(const string& s) {
     return x;
 }
 
+/*<<<<<<<<<<<<<<<<<<<<<<<<  My Code  <<<<<<<<<<<<<<<<<<<<<<<<*/
+
 double factorial(double n) {
     if (n <= 1) return 1;
-    return factorial(n - 1) * n;
+    return factorial(n - 1) * n;    //recursive factorial
 }
 
 void updateTheStack(const string& tok, LinkedStack<double>& stk) {
 
-    if (isdigit(static_cast<double>(tok[0]))) {
+    if (isdigit(static_cast<double>(tok[0]))) {     //if its a number, convert then push it to the stack
         stk.push(toDouble(tok));
     }
     else {
-        double x, y, p;
+        double x, y, p;     //two operrands and one for power checking
         y = stk.top();
         stk.pop();
-        if (tok != "!" && tok != "~") {
+        if (tok != "!" && tok != "~") {     //! and ~ only need the one opperand
             if (stk.isEmpty()) throw logic_error("Not enough operands");
             x = stk.top();
             stk.pop();
@@ -113,7 +100,7 @@ void updateTheStack(const string& tok, LinkedStack<double>& stk) {
             stk.push(x * y);
             break;
         case '/':
-            if (y == 0) throw range_error("Illegal operation");
+            if (y == 0) throw range_error("Illegal operation");     // div by 0
             else stk.push(x / y);
             break;
         case '^':
