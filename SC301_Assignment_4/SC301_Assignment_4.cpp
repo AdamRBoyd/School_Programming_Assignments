@@ -13,9 +13,9 @@ You will need the following includes:*/
 #include <exception>
 #include <cmath>
 #include <sstream>
-#include <string>
 #include "LinkedStack.h"
 
+double factorial(double n);
 // CODE THAT SHOULD GO IN Assignment4.cpp
 void updateTheStack(const string & tok, LinkedStack<double> & stk);  // implementation goes below main.
 
@@ -40,7 +40,7 @@ int main() {
 
         else {
             try {
-
+                
                 istringstream in(exp);  // create a stringstream object
                 LinkedStack<double> stk;      // create a stack of type double
 
@@ -83,21 +83,27 @@ double toDouble(const string& s) {
     return x;
 }
 
+double factorial(double n) {
+    if (n <= 1) return 1;
+    return factorial(n - 1) * n;
+}
+
 void updateTheStack(const string& tok, LinkedStack<double>& stk) {
-    int v = stoi(tok);
-    if (isdigit(v)) {
+
+    if (isdigit(static_cast<double>(tok[0]))) {
         stk.push(toDouble(tok));
-        cout << "Push" << endl;
     }
     else {
-        double x, y;
+        double x, y, p;
         y = stk.top();
         stk.pop();
-        x = stk.top();
-        stk.pop();
+        if (tok != "!" && tok != "~") {
+            if (stk.isEmpty()) throw logic_error("Not enough operands");
+            x = stk.top();
+            stk.pop();
+        }
 
-        //+, -, *, /,  ^ (power) ,  !  (factorial)  and  ~
-        cout << tok[0] << endl;
+        //+, -, *, /, ^, !, ~
         switch (tok[0]) {
         case '+':
             stk.push(x + y);
@@ -109,19 +115,22 @@ void updateTheStack(const string& tok, LinkedStack<double>& stk) {
             stk.push(x * y);
             break;
         case '/':
-            stk.push(x / y);
+            if (y == 0) throw range_error("Divide by zero");
+            else stk.push(x / y);
             break;
         case '^':
-            stk.push(pow(x, y));
+            p = pow(x, y);
+            if (isinf(p) || isnan(p)) throw range_error("Infinity or NAN");
+            else stk.push(p);
             break;
         case '!':
-            stk.push(x + y);
+            stk.push(factorial(y));
             break;
         case '~':
-            stk.push(x + y);
+            stk.push(-y);
             break;
         default:
-            cout << "Invalid operator" << endl;
+            throw logic_error("Unsupported operator");
             break;
         }
     }
