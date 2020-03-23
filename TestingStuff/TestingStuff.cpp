@@ -22,7 +22,9 @@ int main()
         myMap.at("count")++;
         found = m.find_first_of(dl, found + 1);
     }*/
+    string t = " ";
 
+    cout << t.size() << endl;
 
     if (myMap.find("?") == myMap.end()) {
         myMap.emplace("?", 1);

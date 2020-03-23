@@ -46,10 +46,11 @@ int main()
 		alpha = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz",
 		numbDot = "1234567890.";
 	string keyw[] = { "if", "then", "else", "begin", "end" };
-	size_t found;
+	size_t found, found2;
 
 	cout << "Please enter a file to analyze: ";
 	cin >> infile;
+	//infile = "test.txt";	//for testing
 
 	cout << endl;
 
@@ -59,91 +60,90 @@ int main()
 	if (myfile.is_open()) {
 		while (getline(myfile, line)) {
 			//Reading/Compiling Code here...
+			bool single = false;
 
 			//find first delim/token
 			found = line.find_first_of(delim);
 			token = line.substr(0, found);
 
-			//begin and end are on their own lines with no delimiters... find those
+			//begin and end are on their own lines with no delimiters... find those cases
 			if (found == string::npos && line.size() > 0) {
-				if (token.compare("begin") == 0) {
-					keyword.at("begin")++;
-					keyword.at("count")++;
-				}
-				else if (token.compare("end") == 0) {
-					keyword.at("end")++;
-					keyword.at("count")++;
-				}
+				single = true;
 			}
 
 			//find between delimiters
-			while (found != string::npos) {
-				if (line[found] != '\t' && line[found] != '\n' && line[found] != ' ') {	//log special
-					tok[0] = line[found];
-					special.at(tok)++;
-					special.at("count")++;
-				}
-				size_t found2 = line.find_first_of(delim, found + 1);
-				if ((found + 1) != found2) {    //not empty token aka between ()
+			while (found != string::npos || single) {
+				bool keyF = false;
+				if (!single) {		//found a delimiter
+					if (line[found] != '\t' && line[found] != '\n' && line[found] != ' ') {	//log special
+						tok[0] = line[found];
+						special.at(tok)++;
+						special.at("count")++;
+					}
+
+					found2 = line.find_first_of(delim, found + 1);
 					token = line.substr(found + 1, (found2 - found - 1));
-					bool keyF = false;
+				}
+				else {	//case single
+					token = line;
+				}
 
-					if (token != "") {
-						//analyze token for possible match to keyword terms
-						for (int i = 0; i < 5; i++) {
-							if (keyw[i].compare(token) == 0) {
-								keyword.at(token)++;
-								keyword.at("count")++;
+				if (token != "") {
+					//analyze token for possible match to keyword terms
+					for (int i = 0; i < 5; i++) {
+						if (keyw[i].compare(token) == 0) {
+							keyword.at(token)++;
+							keyword.at("count")++;
+							keyF = true;
+							break;
+						}
+					}
+
+					if (!keyF) {
+						//Any integer must be all numbers or number plus '.' (ie 0.05 or 1234)
+						size_t integ = token.find_first_not_of(numbDot);  //integer or real
+						if (integ == string::npos) {
+							integ = token.find_first_of('.');  //separate integer from real, if string doesn't have '.' then npos and is integer 
+							if (integ == string::npos) {    //integer
+								if (integer.find(token) != integer.end()) { //token already in map
+									integer.at(token)++;
+								}
+								else {  //does not exist, add it
+									integer.emplace(token, 1);
+								}
+								integer.at("count")++;
 								keyF = true;
-								break;
+							}
+							else {  //real
+								if (real.find(token) != real.end()) { //token already in map
+									real.at(token)++;
+								}
+								else {  //does not exist, add it
+									real.emplace(token, 1);
+								}
+								real.at("count")++;
+								keyF = true;
 							}
 						}
+					}
 
-						if (!keyF) {
-							//Any integer must be all numbers or number plus '.' (ie 0.05 or 1234)
-							size_t integ = token.find_first_not_of(numbDot);  //integer or real
-							if (integ == string::npos) {
-								integ = token.find_first_of('.');  //separate integer from real, if string doesn't have '.' then npos and is integer 
-								if (integ == string::npos) {    //integer
-									if (integer.find(token) != integer.end()) { //token already in map
-										integer.at(token)++;
-									}
-									else {  //does not exist, add it
-										integer.emplace(token, 1);
-									}
-									integer.at("count")++;
-									keyF = true;
-								}
-								else {  //real
-									if (real.find(token) != real.end()) { //token already in map
-										real.at(token)++;
-									}
-									else {  //does not exist, add it
-										real.emplace(token, 1);
-									}
-									real.at("count")++;
-									keyF = true;
-								}
+					if (!keyF) {
+						//Any identifier must be only chars
+						size_t ident = token.find_first_not_of(alpha);
+						if (ident == string::npos) {    //is a character only string
+							if (identifier.find(token) != identifier.end()) {	//token already in map
+								identifier.at(token)++;
 							}
-						}
-
-						if (!keyF) {
-							//Anycharacter must be only chars?
-							size_t ident = token.find_first_not_of(alpha);
-							if (ident == string::npos) {    //is a character only string
-								if (identifier.find(token) != identifier.end()) {	//token already in map
-									identifier.at(token)++;
-								}
-								else {		//does not exist, add it
-									identifier.emplace(token, 1);
-								}
-								identifier.at("count")++;
+							else {		//does not exist, add it
+								identifier.emplace(token, 1);
 							}
+							identifier.at("count")++;
 						}
 					}
 				}
 
 				found = line.find_first_of(delim, found2);
+				single = false;
 			}
 
 		}
@@ -152,7 +152,7 @@ int main()
 		cout << "\nReport for file: " << infile << endl;
 		//print keyword
 		cout << "\n--- Class Keyword ---" << endl;
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; i++) {	//OCD made me do this to keep them in the right order...
 			if (keyword.at(keyw[i]) > 0) {
 				cout << keyw[i] << " - " << keyword.at(keyw[i]) << endl;
 			}
@@ -188,7 +188,7 @@ int main()
 
 		//print special characters
 		cout << "\n--- Class Special ---" << endl;
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 9; i++) {		//OCD made me do this to keep them in the right order...
 			tok[0] = delim[i];
 			if (special.at(tok) > 0) {
 				cout << tok << " - " << special.at(tok) << endl;
