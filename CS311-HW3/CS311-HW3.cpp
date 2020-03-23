@@ -26,6 +26,12 @@ The delimiters are space, tab, newline, and the special characters.  " ()[]+-=,;
 The token classes that should be recognized are keyword, identifier, integer, real and special.
  */
 
+// Adam Boyd
+// CS 311 01
+// ID xv3543
+
+//<<<< <<<< <<<< <<<< <<<< <<<< <<<< Begin Code >>>> >>>> >>>> >>>> >>>> >>>> >>>>
+
 #include <iostream>
 #include <unordered_map>
 #include <fstream>
