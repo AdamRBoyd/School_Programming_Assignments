@@ -31,7 +31,7 @@ print(0 or 1 or check())
 # 4. numeric types
 print("\nNumeric Types")
 print(type(x))
-x = 10.1
+x = float(x)
 print(type(x))
 x = complex(10,15)
 print(type(x))
