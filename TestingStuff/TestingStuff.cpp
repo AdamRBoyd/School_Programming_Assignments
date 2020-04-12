@@ -9,31 +9,23 @@
 
 using namespace std;
 
+void testing(int n) {
+    if (n == 0) return;
+    testing(n - 1);
+    cout << "-";
+}
+
 int main()
 {   
-    unordered_map<string, int> myMap = { {"count", 0}, {"(" , 0}, {")" , 0}, {"[" , 0}, {"]" , 0}, {"+" , 0}, {"-" , 0}, {"=" , 0}, {"," , 0}, {";" , 0} };
-    /*string m = "This is, a test/tstring/nthere+we=go", dl = "()[]+-=,;", t = " ";
     
-    size_t found = m.find_first_of(dl);
-
-    while (found != string::npos) {
-        t[0] = m[found];
-        myMap.at(t)++;
-        myMap.at("count")++;
-        found = m.find_first_of(dl, found + 1);
-    }*/
-    string t = " ";
-
-    cout << t.size() << endl;
-
-    if (myMap.find("?") == myMap.end()) {
-        myMap.emplace("?", 1);
-    }
-
-    for (auto i : myMap) {
-        cout << i.first << " - " << i.second << endl;
-    }
-
+    testing(3);
+    cout << endl;
+    testing(4);
+    cout << endl;
+    testing(10);
+    cout << endl;
+    testing(2);
+    cout << endl << endl;
     return 0;
 }
 
