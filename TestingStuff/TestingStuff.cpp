@@ -1,31 +1,16 @@
-// TestingStuff.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-#pragma once
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <string>
-#include <sstream>
-#include <unordered_map>
 
 using namespace std;
 
-void testing(int n) {
-    if (n == 0) return;
-    testing(n - 1);
-    cout << "-";
-}
-
 int main()
 {   
-    
-    testing(3);
-    cout << endl;
-    testing(4);
-    cout << endl;
-    testing(10);
-    cout << endl;
-    testing(2);
-    cout << endl << endl;
+    int test[9] = { 9,8,7,6,5,4,3,2,1 };
+    int* t2 = test + 2;
+
+    for (int i = 0; i < 9; i++) {
+        cout << t2[i] << endl;
+    }
+
     return 0;
 }
 
