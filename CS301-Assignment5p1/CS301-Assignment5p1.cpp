@@ -7,19 +7,17 @@
 
 using namespace std;
 
-//  slowsort (modified)
-int slowsort(int  a[], int n) {
-    int count = 0;
-    if (n <= 1) {
-        return count;
-    }
-    count += slowsort(a + 1, n - 1);
-    count++;
+int counter = 0;
+
+//  slowsort
+void slowsort(int  a[], int n) {
+    if (n <= 1) return;
+    slowsort(a + 1, n - 1);
+    counter++;
     if (a[0] > a[1]) {  // item comparison
         swap(a[0], a[1]);
     }
-    count += slowsort(a + 1, n - 1);
-    return count;
+    slowsort(a + 1, n - 1);
 }
 
 int main()
@@ -32,8 +30,9 @@ int main()
 
     cout << "Array Size\tItem comparisons" << endl;
     for (int i = 1; i <= 20; i++) {
-        cout << i << "\t\t";
-        cout << slowsort(test + 20 - i, i) << endl;
+        slowsort(test + 20 - i, i);
+        cout << i << "\t\t" << counter << endl;
+        counter = 0;
     }
 
     cout << endl;
