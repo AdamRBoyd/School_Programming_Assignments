@@ -22,7 +22,7 @@ void printPath(unordered_map<string, string> parents, int size, string startv, s
     cout << " --> " << endv;
 }
       
-void bfs(vector<string> alists[], int size, string start, string target) {
+void bfs(vector<vector<string>> alists, int size, string start, string target) {
     unordered_map<string, string> parents;
     
     for (int i = 0; i < size; i++) {
@@ -71,9 +71,11 @@ void bfs(vector<string> alists[], int size, string start, string target) {
 
 int main() {
     const int size = 1000;
-    vector<string> alists[size], dest;
+    vector<vector<string>> alists;
+    vector<string> dest;
     vector<int> cityNums;
-    int loc, cities = 0, index = -1;
+    int loc, cities = 0;
+    int index;
     bool foundCity = false, getNum = true;
     string start, target, line, from, to, input;
     ifstream myfile;
@@ -83,7 +85,14 @@ int main() {
     if (myfile.is_open()) {
         while (getline(myfile, line)) {
             if (line[0] == 'F') {
-                alists[++index].push_back(line.substr(7, (line.length() - 7)));
+                index = 0;
+                string city = line.substr(7, (line.length() - 7));
+                for (; index < cities; index++) {
+                    if (alists[index][0] > city) {
+                        break;
+                    }
+                }
+                alists.insert(alists.begin() + index, { city });
                 cities++;
             }
             else {
@@ -92,7 +101,13 @@ int main() {
                 //compile list of destinations, excluding duplicates
                 if (find(dest.begin(), dest.end(), to) == dest.end())
                 {
-                    dest.push_back(line.substr(7, (line.length() - 7)));
+                    int ind = 0;
+                    for (; ind < dest.size(); ind++) {
+                        if (dest[ind] > to) {
+                            break;
+                        }
+                    }
+                    dest.insert(dest.begin() + ind, to);
                 }
             }
         }
