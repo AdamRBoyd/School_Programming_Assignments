@@ -1,38 +1,3 @@
-/*
-Create a program that finds shortest flight routes between two cities.
-
-If a route is found the program outputs the list of connecting cities. (Think of these as flight stops at corresponding airports.)  Otherwise the program indicates that no route was found.
-
-The sense in which a route is shortest is simply having the least number of connections.
-
-That means you can use a breadth first search algorithm. Using Dijkstra's algorithm would be overkill.  
-The vertexes in your graphs will simply be numbers in the range 0 to n-1 where n is the number of cities. 
-Each number will be associated with a city name via your lookup table.  Do not create a graph class with nodes and pointers. 
-That's a sure way to get zero credit on this assignment. The correct approach is to use a lookup table which associates each city with an index in the lookup table. 
-Then you will use the bfs and printpath functions (posted below), suitably modified, to output the shortest paths.
-
-To create the lookup table and the adjacency lists for your graph, your program will read in the file connections.txt.
-
-As a side note: the From and To content of connections.txt was randomaly generated and not based on actual flights. 
-Unfortunately, or maybe entertainingly, that means shortest paths found by the program will usually be absurd from the standpoint of world geography.
-
-Be careful when creating the lookup table for city names, because some cities with a From: entry do not have any To: entry (you can fly out but not in). 
-It's also possible that a city appearing under To:  has no From: entry  (can fly in but not out).  
-Be prepared for some wacky results since the connections in the file have no relation to actual connections between real airports.
-
-To select start and destination cities, the user can type in a string, normally the beginning of a city name,  and the program will list matching cities, from which the user can select via a number.
-
-The program should only accept strings that are of length two or more as input. 
-To find matches it simply looks for the user's string as a substring of city names in the lookup table.  
-Ignore case when looking for substrings.
-
-Upload your source file(s) and a text file with copied output from a sample run of the program with multiple  searches.
-The output below is from a sample solution.  Your program output should be similar.
-
-For the city numbers you may use the indexes in your lookup table (as is done below) or number them 1, 2, 3 etc. to be more user friendly.   
-You're also free to avoid displaying a list of cities when the user string matched only one city name.
-*/
-
 // Adam Boyd
 // CS 301 02
 // ID xv3543
@@ -44,36 +9,55 @@ You're also free to avoid displaying a list of cities when the user string match
 #include <string>
 #include <fstream>
 #include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
-// traces parent pointers back from endv to startv
-void printPath(int parents[], int size, int startv, int endv) {
-    if (endv != startv) {
-        printPath(parents, size, startv, parents[endv]);
+void printPath(unordered_map<string, string> parents, int size, string startv, string endv) {
+    if (endv == startv) {
+        cout << endv;
+        return;
     }
-    cout << endv << " --> ";
+    printPath(parents, size, startv, parents.at(endv));
+    cout << " --> " << endv;
 }
+      
+void bfs(vector<string> alists[], int size, string start, string target) {
+    unordered_map<string, string> parents;
+    
+    for (int i = 0; i < size; i++) {
+        parents.emplace(alists[i][0], " ");
+    }
 
-//        
-void bfs(vector<int> alists[], int size, int start, int target) {
-    int* parents = new int[size];
-    for (int i = 0; i < size; i++) parents[i] = -1;
-    parents[start] = start;
-    queue<int> q;
+    parents.at(start) = start;
+    queue<string> q;
     q.push(start);
     bool found = false;
-    while (!q.empty() && !found) {
-        int v = q.front();
-        q.pop();
-        if (v == target)
-            found = true;
 
-        else for (int i = 0; i < alists[v].size(); i++) {
-            int w = alists[v][i];
-            if (parents[w] == -1) {
-                parents[w] = v;
-                q.push(w);
+    while (!q.empty() && !found) {
+        string v = q.front();
+        q.pop();
+        if (v == target) {
+            found = true;
+        }
+        else {
+            int index = 0;
+            for (; index < size; index++) {
+                if (alists[index][0] == v) break;
+            }
+
+            if (index != size) {
+                for (size_t i = 1; i < alists[index].size(); i++) {
+                    string w = alists[index][i];
+                    if (parents.find(w) == parents.end()) {     //make sure its in the list, if not add it
+                        parents.emplace(w, v);
+                        q.push(w);
+                    }
+                    else if (parents.at(w) == " ") {
+                        parents.at(w) = v;
+                        q.push(w);
+                    }
+                }
             }
         }
     }
@@ -82,15 +66,13 @@ void bfs(vector<int> alists[], int size, int start, int target) {
     else
         cout << "Not found";
     cout << endl;
-    delete[] parents;
 }
 
 
 int main() {
     const int size = 1000;
-    vector<string> alists[size], dest; // Adjacency lists for a sample graph
+    vector<string> alists[size], dest;
     vector<int> cityNums;
-    string parents[size];
     int loc, cities = 0, index = -1;
     bool foundCity = false, getNum = true;
     string start, target, line, from, to, input;
@@ -127,23 +109,24 @@ int main() {
             while (!foundCity) {
                 while (true) {
                     cout << "Please enter a departing city name or \"quit\" to exit: ";
-                    cin >> start;
+                    getline(cin, start);
                     if (start.length() < 2) cout << "Please use at least two characters." << endl << endl;
                     else break;
                 }
+
                 if (start == "quit") return 0;
 
                 cout << endl;
 
                 //Convert start to lower case letters for searching
-                for (int i = 0; i < start.length(); i++) {
+                for (size_t i = 0; i < start.length(); i++) {
                     start[i] = tolower(start[i]);
                 }
 
                 for (int i = 0; i < cities; i++) {
                     //convert city to lower case letters for searching
                     string city = alists[i][0];
-                    for (int i = 0; i < city.length(); i++) {
+                    for (size_t i = 0; i < city.length(); i++) {
                         if (isalpha(city[i])) {
                             city[i] = tolower(city[i]);
                         }
@@ -165,10 +148,10 @@ int main() {
 
             while (getNum) {
                 cout << "Enter the number of the desired city: ";
-                cin >> input;
+                getline(cin, input);
                 loc = stoi(input);
 
-                for (int i = 0; i < cityNums.size(); i++) {
+                for (size_t i = 0; i < cityNums.size(); i++) {
                     if (cityNums[i] == loc) {
                         getNum = false;
                     }
@@ -193,23 +176,24 @@ int main() {
             while (!foundCity) {
                 while (true) {
                     cout << "Please enter a destination city name or \"quit\" to exit: ";
-                    cin >> target;
+                    getline(cin, target);
                     if (target.length() < 2) cout << "Please use at least two characters." << endl << endl;
                     else break;
                 }
+
                 if (target == "quit") return 0;
 
                 cout << endl;
 
                 //Convert start to lower case letters for searching
-                for (int i = 0; i < target.length(); i++) {
+                for (size_t i = 0; i < target.length(); i++) {
                     target[i] = tolower(target[i]);
                 }
 
-                for (int i = 0; i < dest.size(); i++) {
+                for (size_t i = 0; i < dest.size(); i++) {
                     //convert city to lower case letters for searching
                     string city = dest[i];
-                    for (int i = 0; i < city.length(); i++) {
+                    for (size_t i = 0; i < city.length(); i++) {
                         if (isalpha(city[i])) {
                             city[i] = tolower(city[i]);
                         }
@@ -231,10 +215,10 @@ int main() {
 
             while (getNum) {
                 cout << "Enter the number of the desired city: ";
-                cin >> input;
+                getline(cin, input);
                 loc = stoi(input);
 
-                for (int i = 0; i < cityNums.size(); i++) {
+                for (size_t i = 0; i < cityNums.size(); i++) {
                     if (cityNums[i] == loc) {
                         getNum = false;
                     }
@@ -254,8 +238,8 @@ int main() {
         //bfs search
         bfs(alists, cities, start, target);
 
-        cout << "Make another search? (\"yes\" or \"no\"): ";
-        cin >> input;
+        cout << "\n\nMake another search? (\"yes\" or \"no\"): ";
+        getline(cin, input);
         if (input == "no") {
             cout << endl;
             break;
