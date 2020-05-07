@@ -37,10 +37,238 @@ You're also free to avoid displaying a list of cities when the user string match
 // CS 301 02
 // ID xv3543
 
+#include <queue>
+#include <list>
 #include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <algorithm>
 
-int main()
-{
-    std::cout << "Hello World!\n";
+using namespace std;
+
+// traces parent pointers back from endv to startv
+void printPath(int parents[], int size, int startv, int endv) {
+    if (endv != startv) {
+        printPath(parents, size, startv, parents[endv]);
+    }
+    cout << endv << " --> ";
 }
 
+//        
+void bfs(vector<int> alists[], int size, int start, int target) {
+    int* parents = new int[size];
+    for (int i = 0; i < size; i++) parents[i] = -1;
+    parents[start] = start;
+    queue<int> q;
+    q.push(start);
+    bool found = false;
+    while (!q.empty() && !found) {
+        int v = q.front();
+        q.pop();
+        if (v == target)
+            found = true;
+
+        else for (int i = 0; i < alists[v].size(); i++) {
+            int w = alists[v][i];
+            if (parents[w] == -1) {
+                parents[w] = v;
+                q.push(w);
+            }
+        }
+    }
+    if (found)
+        printPath(parents, size, start, target);
+    else
+        cout << "Not found";
+    cout << endl;
+    delete[] parents;
+}
+
+
+int main() {
+    const int size = 1000;
+    vector<string> alists[size], dest; // Adjacency lists for a sample graph
+    vector<int> cityNums;
+    string parents[size];
+    int loc, cities = 0, index = -1;
+    bool foundCity = false, getNum = true;
+    string start, target, line, from, to, input;
+    ifstream myfile;
+    
+    myfile.open("connections.txt");
+
+    if (myfile.is_open()) {
+        while (getline(myfile, line)) {
+            if (line[0] == 'F') {
+                alists[++index].push_back(line.substr(7, (line.length() - 7)));
+                cities++;
+            }
+            else {
+                string to = line.substr(7, (line.length() - 7));
+                alists[index].push_back(to);
+                //compile list of destinations, excluding duplicates
+                if (find(dest.begin(), dest.end(), to) == dest.end())
+                {
+                    dest.push_back(line.substr(7, (line.length() - 7)));
+                }
+            }
+        }
+        myfile.close();
+    }
+    else {
+        cout << "Unable to find file!" << endl;
+        return 0;
+    }
+
+    //select departing city
+    while (true) {
+        while (!foundCity && getNum) {
+            while (!foundCity) {
+                while (true) {
+                    cout << "Please enter a departing city name or \"quit\" to exit: ";
+                    cin >> start;
+                    if (start.length() < 2) cout << "Please use at least two characters." << endl << endl;
+                    else break;
+                }
+                if (start == "quit") return 0;
+
+                cout << endl;
+
+                //Convert start to lower case letters for searching
+                for (int i = 0; i < start.length(); i++) {
+                    start[i] = tolower(start[i]);
+                }
+
+                for (int i = 0; i < cities; i++) {
+                    //convert city to lower case letters for searching
+                    string city = alists[i][0];
+                    for (int i = 0; i < city.length(); i++) {
+                        if (isalpha(city[i])) {
+                            city[i] = tolower(city[i]);
+                        }
+                    }
+
+                    size_t found = city.find(start);
+                    if (found != string::npos) {
+                        cout << i << ": " << alists[i][0] << endl;
+                        cityNums.push_back(i);
+                        foundCity = true;
+                    }
+                }
+                if (!foundCity) {
+                    cout << "No Cities Found" << endl;
+                }
+
+            }
+            cout << endl;
+
+            while (getNum) {
+                cout << "Enter the number of the desired city: ";
+                cin >> input;
+                loc = stoi(input);
+
+                for (int i = 0; i < cityNums.size(); i++) {
+                    if (cityNums[i] == loc) {
+                        getNum = false;
+                    }
+                }
+
+                if (!getNum) {
+                    start = alists[loc][0];
+                    cout << "\nSelected Departure: " << start << endl;
+                }
+                else {
+                    cout << "\nCity Number not found! Please select from the list above." << endl;
+                }
+            }
+            cout << endl;
+        }
+
+        foundCity = false, getNum = true;
+        cityNums.clear();
+
+        //Select destination city
+        while (!foundCity && getNum) {
+            while (!foundCity) {
+                while (true) {
+                    cout << "Please enter a destination city name or \"quit\" to exit: ";
+                    cin >> target;
+                    if (target.length() < 2) cout << "Please use at least two characters." << endl << endl;
+                    else break;
+                }
+                if (target == "quit") return 0;
+
+                cout << endl;
+
+                //Convert start to lower case letters for searching
+                for (int i = 0; i < target.length(); i++) {
+                    target[i] = tolower(target[i]);
+                }
+
+                for (int i = 0; i < dest.size(); i++) {
+                    //convert city to lower case letters for searching
+                    string city = dest[i];
+                    for (int i = 0; i < city.length(); i++) {
+                        if (isalpha(city[i])) {
+                            city[i] = tolower(city[i]);
+                        }
+                    }
+
+                    size_t found = city.find(target);
+                    if (found != string::npos) {
+                        cout << i << ": " << dest[i] << endl;
+                        cityNums.push_back(i);
+                        foundCity = true;
+                    }
+                }
+                if (!foundCity) {
+                    cout << "No Cities Found" << endl;
+                }
+
+            }
+            cout << endl;
+
+            while (getNum) {
+                cout << "Enter the number of the desired city: ";
+                cin >> input;
+                loc = stoi(input);
+
+                for (int i = 0; i < cityNums.size(); i++) {
+                    if (cityNums[i] == loc) {
+                        getNum = false;
+                    }
+                }
+
+                if (!getNum) {
+                    target = dest[loc];
+                    cout << "\nSelected Destination: " << target << endl;
+                }
+                else {
+                    cout << "\nCity Number not found! Please select from the list above." << endl;
+                }
+            }
+            cout << endl;
+        }
+
+        //bfs search
+        bfs(alists, cities, start, target);
+
+        cout << "Make another search? (\"yes\" or \"no\"): ";
+        cin >> input;
+        if (input == "no") {
+            cout << endl;
+            break;
+        }
+        else if (input != "yes") {
+            cout << "\nwhat...? Ok, just gonna go again..." << endl;
+        }
+        
+        cout << endl;
+        foundCity = false, getNum = true;
+        cityNums.clear();
+    }
+
+    cout << endl;
+    return 0;
+}

@@ -1,14 +1,22 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
 int main()
 {   
-    int test[9] = { 9,8,7,6,5,4,3,2,1 };
-    int* t2 = test + 2;
+    vector<string> v;
+    v.push_back("123");
+    v.push_back("abc");
+    v.push_back("xyz");
 
-    for (int i = 0; i < 9; i++) {
-        cout << t2[i] << endl;
+    if (find(v.begin(), v.end(), "abc") == v.end())
+    {
+        cout << "Not found" << endl;
+    }
+    else {
+        cout << "Found" << endl;
     }
 
     return 0;
