@@ -1,0 +1,90 @@
+Please enter a departing city name or "quit" to exit: S
+Please use at least two characters.
+
+Please enter a departing city name or "quit" to exit: Sa
+
+22: Casablanca, Morocco
+45: Hong Kong, SAR
+50: Jeddah, Saudi Arabia
+64: Lusaka, Zambia
+82: Osaka, Japan
+93: Riyadh, Saudi Arabia
+95: San Francisco, United States
+96: San Juan, Puerto Rico
+97: Santiago, Chile
+98: Santo Domingo, Dominican Republic
+99: Sao Paulo, Brazil
+118: Warsaw, Poland
+122: Winston-Salem, United States
+
+Enter the number of the desired city: 95
+
+Selected Departure: San Francisco, United States
+
+Please enter a destination city name or "quit" to exit: los angeles
+
+72: Los Angeles, United States
+
+Enter the number of the desired city: 72
+
+Selected Destination: Los Angeles, United States
+
+San Francisco, United States --> Jeddah, Saudi Arabia --> Montevideo, Uruguay --> Seoul, South Korea --> Seattle, United States --> Los Angeles, United States
+
+
+Make another search? ("yes" or "no"): yes
+
+Please enter a departing city name or "quit" to exit: new
+
+8: Auckland, New Zealand
+80: New Delhi, India
+81: New York City, United States
+120: Wellington, New Zealand
+
+Enter the number of the desired city: 81
+
+Selected Departure: New York City, United States
+
+Please enter a destination city name or "quit" to exit: paris
+
+96: Paris, France
+
+Enter the number of the desired city: 96
+
+Selected Destination: Paris, France
+
+New York City, United States --> Abidjan, Cote d'Ivoire --> Dakar, Senegal --> Chennai, India --> Paris, France
+
+
+Make another search? ("yes" or "no"): yes
+
+Please enter a departing city name or "quit" to exit: Zea
+
+8: Auckland, New Zealand
+120: Wellington, New Zealand
+
+Enter the number of the desired city: 8
+
+Selected Departure: Auckland, New Zealand
+
+Please enter a destination city name or "quit" to exit: Tto
+
+No Cities Found
+Please enter a destination city name or "quit" to exit: Tor
+
+128: Toronto, Canada
+
+Enter the number of the desired city: 128
+
+Selected Destination: Toronto, Canada
+
+Auckland, New Zealand --> Adelaide, Australia --> Casablanca, Morocco --> Toronto, Canada
+
+
+Make another search? ("yes" or "no"): no
+
+
+Press any key to continue . . .
+
+C:\Windows\system32\cmd.exe (process 10764) exited with code 0.
+Press any key to close this window . . .
