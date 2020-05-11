@@ -17,6 +17,9 @@ Notice there's a second parameter of type vector for hasALoop.  You're free to u
 
 #include <iostream>
 #include <vector>
+#include <stack>
+#include <algorithm>
+
 using namespace std;
 
 
@@ -92,7 +95,24 @@ void printChildren(Node* nodes[], int size) {
 }
 bool hasALoop(Node* r, vector<Node*> v)
 {
-	return false;
+	if (r == nullptr) return false;
+
+	bool loopFound = false;
+				
+	vector<Node*>::iterator found = find(v.begin(), v.end(), r);
+	if (found != v.end()) { 
+		return true;
+	}
+	else { v.push_back(r); }
+
+	if (r->left != nullptr) {
+		if (hasALoop(r->left, v)) return true;
+	}
+	if (r->right != nullptr) { 
+		if (hasALoop(r->right, v)) return true; 
+	}
+
+	return loopFound;
 }
 
 // Print the binary tree.
