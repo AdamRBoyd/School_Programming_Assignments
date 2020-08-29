@@ -33,7 +33,7 @@ public:
 	}
 };
 
-const int TREESIZE = 4;  // change TREESIZE to 8 for your submission
+const int TREESIZE = 8;  // change TREESIZE to 8 for your submission
 
 void printNode(Node* r);              // called by printChildren 
 void printChildren(Node* nodes[], int size); // called by debug 
