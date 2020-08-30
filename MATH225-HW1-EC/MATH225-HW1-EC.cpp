@@ -51,8 +51,17 @@ int main()
 			tot2 = 1 / tot2;
 		}
 
+		double e = 1 / (exp(x));
+
+		cout << "\nActual Value of e^" << x << " = " << e << endl << endl;
+
 		cout << "Approximation 1: " << tot1 << endl;
-		cout << "Approximation 2: " << tot2 << endl;
+		cout << "Absolute Error: " << (abs(e - tot1)) << endl;
+		cout << "Relative Error: " << (abs(e - tot1)) / abs(e) << endl;
+			   
+		cout << "\nApproximation 2: " << tot2 << endl;
+		cout << "Absolute Error: " << (abs(e - tot2)) << endl;
+		cout << "Relative Error: " << (abs(e - tot2)) / abs(e) << endl;
 
 		cout << "\nRun again? (y/n): ";
 		cin >> c;
