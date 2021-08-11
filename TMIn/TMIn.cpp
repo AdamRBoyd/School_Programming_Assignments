@@ -2,7 +2,10 @@
 
 using namespace std;
 
-int main(int argc, char* argv[])
+int main()
 {
-    cout << argv[1];
+    int a[5] = { 1 };
+    int i;
+    for (i = 0; i < 4; i++);
+        cout << a[i];
 }
